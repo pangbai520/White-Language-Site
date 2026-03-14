@@ -1,0 +1,103 @@
+/* src/css/custom.css */
+:root {
+  --ifm-color-primary: #58a6ff;
+  --ifm-color-primary-dark: #3b93ff;
+  --ifm-color-primary-darker: #2b8aff;
+  --ifm-color-primary-darkest: #006ef5;
+  --ifm-color-primary-light: #75b9ff;
+  --ifm-color-primary-lighter: #84c2ff;
+  --ifm-color-primary-lightest: #b0dcff;
+  
+  --ifm-font-family-base: 'Inter', system-ui, -apple-system, sans-serif;
+  --ifm-font-family-monospace: 'Fira Code', 'JetBrains Mono', Consolas, monospace;
+}
+
+
+[data-theme='dark'] {
+  --ifm-background-color: #0d1117;
+  --ifm-background-surface-color: #161b22;
+  --wl-border-color: #30363d;
+}
+
+[data-theme='light'] {
+  --wl-border-color: #e1e4e8;
+}
+
+/* 首页 Hero 区域 */
+.heroBanner {
+  padding: 6rem 0;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.heroTitle {
+  font-size: 4.5rem;
+  font-weight: 800;
+  background: linear-gradient(135deg, var(--ifm-font-color-base) 0%, #8b949e 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  margin-bottom: 1rem;
+}
+
+.heroSubtitle {
+  font-size: 1.5rem;
+  color: #8b949e;
+  height: 2.5rem;
+}
+
+/* 打字机光标 */
+.cursor {
+  font-weight: bold;
+  color: var(--ifm-color-primary);
+  animation: blink 1s step-end infinite;
+}
+
+@keyframes blink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0; }
+}
+
+.quickInstall {
+  background-color: var(--ifm-background-surface-color);
+  padding: 1rem 2rem;
+  border-radius: 8px;
+  border: 1px solid var(--wl-border-color);
+  display: inline-block;
+  font-family: var(--ifm-font-family-monospace);
+  margin-top: 3rem;
+  color: var(--ifm-color-primary);
+  font-size: 1.1rem;
+}
+
+
+.showcaseSection {
+  padding: 4rem 2rem;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.showcaseGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(450px, 1fr));
+  gap: 2rem;
+  margin-top: 3rem;
+}
+
+.codeCard {
+  background-color: var(--ifm-background-surface-color);
+  border: 1px solid var(--wl-border-color);
+  border-radius: 12px;
+  overflow: hidden;
+  text-align: left;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+}
+
+.codeCard h3 {
+  padding: 1rem 1.5rem;
+  margin: 0;
+  border-bottom: 1px solid var(--wl-border-color);
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--ifm-font-color-base);
+}

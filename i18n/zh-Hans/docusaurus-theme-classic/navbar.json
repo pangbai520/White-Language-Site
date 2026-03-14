@@ -1,0 +1,22 @@
+{
+  "title": {
+    "message": "White Lang",
+    "description": "The title in the navbar"
+  },
+  "logo.alt": {
+    "message": "White Lang Logo",
+    "description": "The alt text of navbar logo"
+  },
+  "item.label.Documentation": {
+    "message": "Docs",
+    "description": "Navbar item with label Documentation"
+  },
+  "item.label.VS Code Extension": {
+    "message": "VS Code Extension",
+    "description": "Navbar item with label VS Code Extension"
+  },
+  "item.label.GitHub": {
+    "message": "GitHub",
+    "description": "Navbar item with label GitHub"
+  }
+}

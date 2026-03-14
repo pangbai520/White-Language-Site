@@ -1,0 +1,26 @@
+{
+  "link.title.Learn": {
+    "message": "学习",
+    "description": "页脚中标题为 Learn 的链接列标题"
+  },
+  "link.title.Ecosystem": {
+    "message": "生态系统",
+    "description": "页脚中标题为 Ecosystem 的链接列标题"
+  },
+  "link.item.label.Introduction": {
+    "message": "项目介绍",
+    "description": "链接到 /docs/intro 的页脚链接标签 Introduction"
+  },
+  "link.item.label.Compiler (wlc)": {
+    "message": "编译器 (wlc)",
+    "description": "链接到源码仓库的页脚链接标签 Compiler (wlc)"
+  },
+  "link.item.label.LSP & Langium": {
+    "message": "LSP 与 Langium",
+    "description": "链接到 VS Code 扩展仓库的页脚链接标签 LSP & Langium"
+  },
+  "copyright": {
+    "message": "Copyright © 2026 White Language 团队。基于 Apache-2.0 协议授权。使用 Docusaurus 构建。",
+    "description": "页脚版权信息"
+  }
+}
