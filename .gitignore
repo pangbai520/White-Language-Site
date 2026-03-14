@@ -26,3 +26,5 @@ yarn-error.log*
 *.ll
 *.res
 /Output/
+
+secrets
