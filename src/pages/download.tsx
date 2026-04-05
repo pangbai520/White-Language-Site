@@ -44,9 +44,9 @@ export default function Download() {
     if (platform === 'windows') {
       fileName = `WhiteLanguage-Windows-x64-Setup-${version}.exe`;
     } else if (platform === 'mac') {
-      fileName = `whitelang-macos-arm64.tar-${version}.gz`;
+      fileName = `whitelang-macos-arm64-${version}.tar.gz`;
     } else {
-      fileName = `whitelang-linux-x64.tar-${version}.gz`;
+      fileName = `whitelang-linux-x64-${version}.tar.gz`;
     }
     const baseUrl = `https://static.white-lang.org/${isLatest ? 'latest' : 'v' + version}`;
     return `${baseUrl}/${fileName}`;
