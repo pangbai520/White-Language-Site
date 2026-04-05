@@ -19,31 +19,37 @@ export default function Download() {
       .then(res => res.json())
       .then(data => {
         if (Array.isArray(data)) {
-          const vList = data.map((tag: any) => tag.name.replace(/^v/, ''));
-          setVersions(vList);
+          const phaseSet = new Set<string>();
+          data.forEach((tag: any) => {
+            const full = tag.name.replace(/^v/, '');
+            const phase = full.split('.').slice(0, 2).join('.');
+            phaseSet.add(phase);
+          });
+          setVersions(Array.from(phaseSet));
         }
         setIsLoading(false);
       })
       .catch(err => {
         console.error("Failed to fetch versions:", err);
-        setVersions(['0.1.1']);
+        setVersions(['0.2']);
         setIsLoading(false);
       });
   }, []);
 
-  const CURRENT_VERSION = versions[0] || '0.1.1';
+  const CURRENT_VERSION = versions[0] || '0.2';
 
   const getDownloadLink = (platform: 'windows' | 'mac' | 'linux', version: string) => {
     const isLatest = version === CURRENT_VERSION;
-    const baseUrl = `https://static.white-lang.org/${isLatest ? 'latest' : 'v' + version}`;
-    
+    let fileName = "";
     if (platform === 'windows') {
-      return `${baseUrl}/WhiteLanguage-Windows-x64-Setup-${version}.exe`;
+      fileName = `WhiteLanguage-Windows-x64-Setup-${version}.exe`;
     } else if (platform === 'mac') {
-      return `${baseUrl}/whitelang-macos-arm64.tar-${version}.gz`;
+      fileName = `whitelang-macos-arm64.tar-${version}.gz`;
     } else {
-      return `${baseUrl}/whitelang-linux-x64.tar-${version}.gz`;
+      fileName = `whitelang-linux-x64.tar-${version}.gz`;
     }
+    const baseUrl = `https://static.white-lang.org/${isLatest ? 'latest' : 'v' + version}`;
+    return `${baseUrl}/${fileName}`;
   };
 
   const GreenButtonStyle = {
