@@ -1,43 +1,35 @@
-# White Language Site
-![Build Status](https://github.com/pangbai520/White-Language-Site/actions/workflows/deploy.yml/badge.svg)
+# White website
 
-> The home of the White Language website.
+[![Website](https://github.com/pangbai520/White-Language-Site/actions/workflows/deploy.yml/badge.svg)](https://github.com/pangbai520/White-Language-Site/actions/workflows/deploy.yml)
 
-> [!NOTE]
-> This repository is specifically for the **website code and documentation**.
-> * The core **White Language compiler** source code is located at [whitelanguage/white](https://github.com/whitelanguage/white).
-> * The **VS Code Extension** source code is located at [whitelanguage/vscode-white](https://github.com/whitelanguage/vscode-white).
-> 
-> 
+This repository contains [white-lang.org](https://www.white-lang.org). The site is built with Docusaurus 3.
 
-## Development
+The language itself lives elsewhere:
 
-### Building the site locally
+- [whitelanguage/white](https://github.com/whitelanguage/white) contains `wlc`, the standard library, and the language tests.
+- [whitelanguage/wlls](https://github.com/whitelanguage/wlls) contains the language server.
+- [whitelanguage/vscode-white](https://github.com/whitelanguage/vscode-white) contains the VS Code extension.
 
-This website is built using **Docusaurus 3**. Ensure you have [Node.js](https://nodejs.org/) (version 20 or later) installed.
+## Local development
 
-1. **Install dependencies**:
+Node.js 20 or later is required.
+
 ```bash
-npm install
-```
-
-
-2. **Start the development server**:
-```bash
+npm ci
 npm run start
 ```
 
-### Where to edit
+Before pushing a change, run the same checks used by CI:
 
-* **Styles**: Edit [`src/css/custom.css`](src/css/custom.css) for global styles and theme variables.
-* **Pages**: Edit React components in [`src/pages/`](src/pages/) (e.g., `index.tsx`, `download.tsx`).
-* **Documentation**: Edit Markdown files in the [`docs/`](docs/) directory.
-* **Translations**: Edit JSON and Markdown files in the [`i18n/`](i18n/) directory.
+```bash
+npm run typecheck
+npm run build
+```
 
-### Deployment
+Site pages are in `src/pages`, global styles are in `src/css/custom.css`, and translations are under `i18n`. The English documentation source remains in `docs`.
 
-**white-lang.org** is currently hosted on **GitHub Pages**. The `main` branch is automatically built and deployed to [www.white-lang.org](https://www.white-lang.org) after each push via GitHub Actions.
+Pull requests are built but not deployed. A push to `main` publishes the completed `build` directory to Cloudflare Pages.
 
-### License
+## License
 
-Distributed under the [**Apache-2.0 License**](LICENSE).
+Apache-2.0. See [LICENSE](LICENSE).

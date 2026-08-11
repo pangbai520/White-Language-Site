@@ -297,67 +297,56 @@
   
 
 
-  "homepage.pageTitle": {
-    "message": "首页"
-  },
-  "homepage.pageDescription": {
-    "message": "White Language：可预测的控制，现代化的开发体验。"
-  },
-  "homepage.typewriter.1": {
-    "message": "可预测的性能。"
-  },
-  "homepage.typewriter.2": {
-    "message": "无缝的 C 语言互操作。"
-  },
-  "homepage.typewriter.3": {
-    "message": "构建自举编译器。"
-  },
-  "homepage.typewriter.4": {
-    "message": "现代化的 VS Code 工具链。"
-  },
-  "homepage.subtitle": {
-    "message": "一门专注于系统编程的语言："
-  },
-  "homepage.downloadButton": {
-    "message": "下载 WhiteLang"
-  },
-  "homepage.readDocsButton": {
-    "message": "查阅文档"
-  },
-  "homepage.viewSourceButton": {
-    "message": "查看源码"
-  },
-  "homepage.versionInfo": {
-    "message": "版本 {version} • 支持 Windows, macOS, 和 Linux"
-  },
-  "homepage.showcase.title": {
-    "message": "兼具开发效率与运行性能的编程语言"
-  },
-  "homepage.showcase.description": {
-    "message": "静态类型、自举实现、由 LLVM 提供强力驱动。"
-  },
-  "homepage.showcase.feature1.title": {
-    "message": "内置 ARC 与安全机制"
-  },
-  "homepage.showcase.feature2.title": {
-    "message": "无缝 C 语言外部函数接口 (FFI)"
-  },
-  "download.pageTitle": { "message": "下载 WhiteLang" },
-  "download.pageDescription": { "message": "White Language 编译器的自动化分发。" },
-  "download.title": { "message": "下载 White Language" },
-  "download.loading": { "message": "正在获取最新构建信息..." },
-  "download.currentStable": { "message": "当前稳定版: v{version} • 静态类型 & 自举实现" },
-  "download.selectPlatform": { "message": "请在下方选择一个平台。" },
-  "download.recommendedFor": { "message": "为你推荐的系统版本: {osName}" },
-  "download.mainButton": { "message": "下载 v{version} ({osLabel} 版)" },
-  "download.setupNote": { "message": "包含 wlc 编译器和标准库 (std)。" },
-  "download.history.hide": { "message": "↑ 隐藏历史版本" },
-  "download.history.show": { "message": "↓ 查看所有版本" },
-  "download.table.version": { "message": "版本" },
-  "download.table.windows": { "message": "Windows (.exe)" },
-  "download.table.macos": { "message": "macOS (.tar.gz)" },
-  "download.table.linux": { "message": "Linux (.tar.gz)" },
-  "download.table.downloadAction": { "message": "下载" },
-  "download.footer.license": { "message": "基于 {license} 协议授权。" },
-  "download.footer.source": { "message": "查看 {githubLink} 以获取构建指南。" }
+  "home.description": { "message": "White 是一门使用自举编译器的静态类型系统语言。" },
+  "home.release": { "message": "White {version}" },
+  "home.title": { "message": "White" },
+  "home.lead": { "message": "White 是一门编译为原生程序的静态类型语言。编译器使用 White 编写，并通过 LLVM 完成代码生成。" },
+  "home.targets.action": { "message": "支持的系统" },
+  "home.docs.action": { "message": "文档" },
+  "home.meta.compiler": { "message": "使用 White 编写" },
+  "home.meta.output": { "message": "使用 LLVM 构建" },
+  "home.language.kicker": { "message": "语言" },
+  "home.language.title": { "message": "一些基本功能" },
+  "home.language.lead": { "message": "White 具有静态类型、class、interface、ARC、可失败返回值，以及调用原生库的 FFI。语法目前保持得比较小。" },
+  "home.language.static.title": { "message": "静态类型" },
+  "home.language.static.body": { "message": "类型可以显式写出，也可以使用 Auto 推导。Auto 会在编译期确定，不会在运行时增加动态类型。" },
+  "home.language.errors.title": { "message": "错误处理" },
+  "home.language.errors.body": { "message": "可能失败的函数返回 T?。调用时使用 ?，再在合适的位置用 catch 处理错误。" },
+  "home.language.memory.title": { "message": "内存管理" },
+  "home.language.memory.body": { "message": "String、class、interface 和闭包使用 ARC 管理。class 可以定义 deinit，用于释放文件、句柄等资源。" },
+  "home.compiler.kicker": { "message": "编译器" },
+  "home.compiler.title": { "message": "wlc 如何构建程序" },
+  "home.compiler.body": { "message": "wlc 读取并检查 White 源码，然后生成 LLVM IR。之后由 Clang 生成可执行文件、目标文件、汇编或共享库。wlc 本身也使用同一流程构建。" },
+  "home.compiler.source": { "message": "编译器源码" },
+  "home.platforms.kicker": { "message": "平台" },
+  "home.platforms.title": { "message": "支持的系统" },
+  "home.platforms.body": { "message": "发布流水线会为这里列出的目标构建并测试 wlc。跨系统编译仍需要目标系统的 SDK 或 sysroot。" },
+  "home.platforms.action": { "message": "下载" },
+  "home.ecosystem.kicker": { "message": "工具" },
+  "home.ecosystem.title": { "message": "项目的其它部分" },
+  "home.ecosystem.compiler": { "message": "编译器与标准库" },
+  "home.ecosystem.server": { "message": "White 语言服务器" },
+  "home.ecosystem.editor": { "message": "编辑器扩展" },
+  "home.limits.title": { "message": "当前限制" },
+  "home.limits.body": { "message": "ARC 还不能回收循环引用，弱引用尚未实现，泛型系统与标准库也没有完成。White 目前还不适合一般的生产环境。" },
+  "home.limits.action": { "message": "阅读限制" },
+  "download.pageTitle": { "message": "下载" },
+  "download.pageDescription": { "message": "White 的发布目标与二进制可用状态。" },
+  "download.releaseLabel": { "message": "发布版本" },
+  "download.title": { "message": "下载 White" },
+  "download.intro": { "message": "White 会为 Windows、Linux 与 macOS 构建发布包。只有文件确实进入公共镜像后，这里才会显示下载链接。" },
+  "download.mirror.kicker": { "message": "下载" },
+  "download.mirror.title": { "message": "当前可下载版本" },
+  "download.mirror.latest": { "message": "最新可下载版本" },
+  "download.loading": { "message": "正在读取发布版本……" },
+  "download.loadError": { "message": "暂时无法读取发布列表，请稍后重试。" },
+  "download.archive.kicker": { "message": "归档" },
+  "download.archive.title": { "message": "旧版本" },
+  "download.targets.kicker": { "message": "平台" },
+  "download.targets.title": { "message": "支持的平台" },
+  "download.targets.count": { "message": "{count} 个架构" },
+  "download.source.kicker": { "message": "源码" },
+  "download.source.title": { "message": "从仓库构建编译器" },
+  "download.source.body": { "message": "编译器、标准库、测试与自举说明都在 White 主仓库中。从源码构建需要一套已有的 wlc 工具链。" },
+  "download.source.action": { "message": "打开构建说明" }
 }

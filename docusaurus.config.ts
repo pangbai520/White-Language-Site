@@ -3,8 +3,8 @@ import type {Config} from '@docusaurus/types';
 import type * as Preset from '@docusaurus/preset-classic';
 
 const config: Config = {
-  title: 'White Language',
-  tagline: 'The safety of ARC, the precision of C.',
+  title: 'The White Programming Language',
+  tagline: 'A statically typed language with a self-hosted compiler.',
   favicon: 'img/favicon.ico',
 
   url: 'https://www.white-lang.org',
@@ -62,13 +62,12 @@ const config: Config = {
     colorMode: {
       defaultMode: 'dark',
       disableSwitch: false,
-      respectPrefersColorScheme: false,
+      respectPrefersColorScheme: true,
     },
-    image: 'img/docusaurus-social-card.jpg',
     navbar: {
-      title: 'WhiteLang',
+      title: 'White',
       logo: {
-        alt: 'WhiteLang Logo',
+        alt: 'White',
         src: 'img/logo.svg',
       },
       items: [
@@ -79,9 +78,14 @@ const config: Config = {
           label: 'Docs',
         },
         {
-          href: 'https://github.com/whitelanguage/vscode-white',
-          label: 'VS Code Extension',
+          to: '/download',
+          label: 'Download',
           position: 'left',
+        },
+        {
+          href: 'https://github.com/whitelanguage/vscode-white',
+          label: 'VS Code',
+          position: 'right',
         },
         {
           href: 'https://github.com/whitelanguage/white',
@@ -98,29 +102,46 @@ const config: Config = {
       style: 'dark',
       links: [
         {
-          title: 'Learn',
+          title: 'Language',
           items: [
             {
               label: 'Introduction',
               to: '/docs/intro',
             },
+            {
+              label: 'Download',
+              to: '/download',
+            },
           ],
         },
         {
-          title: 'Ecosystem',
+          title: 'Source',
           items: [
             {
-              label: 'White Language Server',
+              label: 'Compiler and standard library',
+              href: 'https://github.com/whitelanguage/white',
+            },
+            {
+              label: 'Language server',
               href: 'https://github.com/whitelanguage/wlls',
             },
             {
-              label: 'Vscode Extension',
+              label: 'VS Code extension',
               href: 'https://github.com/whitelanguage/vscode-white',
             },
           ],
         },
+        {
+          title: 'Project',
+          items: [
+            {
+              label: 'GitHub organization',
+              href: 'https://github.com/whitelanguage',
+            },
+          ],
+        },
       ],
-      copyright: `Copyright © ${new Date().getFullYear()} White Language Team. Licensed under Apache-2.0. Built with Docusaurus.`,
+      copyright: `<span class="wl-footer-meta"><span>Copyright © ${new Date().getFullYear()} White contributors.</span><a class="wl-footer-license" href="https://github.com/whitelanguage/white/blob/main/LICENSE">Apache-2.0</a></span>`,
     },
     prism: {
       theme: prismThemes.github,

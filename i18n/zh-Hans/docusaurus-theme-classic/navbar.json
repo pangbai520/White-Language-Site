@@ -1,19 +1,23 @@
 {
   "title": {
-    "message": "White Lang",
+    "message": "White",
     "description": "The title in the navbar"
   },
   "logo.alt": {
-    "message": "White Lang Logo",
+    "message": "White",
     "description": "The alt text of navbar logo"
   },
-  "item.label.Documentation": {
-    "message": "Docs",
-    "description": "Navbar item with label Documentation"
+  "item.label.Docs": {
+    "message": "文档",
+    "description": "Navbar item with label Docs"
   },
-  "item.label.VS Code Extension": {
-    "message": "VS Code Extension",
-    "description": "Navbar item with label VS Code Extension"
+  "item.label.Download": {
+    "message": "下载",
+    "description": "Navbar item with label Download"
+  },
+  "item.label.VS Code": {
+    "message": "VS Code",
+    "description": "Navbar item with label VS Code"
   },
   "item.label.GitHub": {
     "message": "GitHub",

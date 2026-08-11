@@ -1,26 +1,38 @@
 {
-  "link.title.Learn": {
-    "message": "学习",
-    "description": "页脚中标题为 Learn 的链接列标题"
+  "link.title.Language": {
+    "message": "语言",
+    "description": "Footer column title"
   },
-  "link.title.Ecosystem": {
-    "message": "生态系统",
-    "description": "页脚中标题为 Ecosystem 的链接列标题"
+  "link.title.Source": {
+    "message": "源码",
+    "description": "Footer column title"
+  },
+  "link.title.Project": {
+    "message": "项目",
+    "description": "Footer column title"
   },
   "link.item.label.Introduction": {
-    "message": "项目介绍",
-    "description": "链接到 /docs/intro 的页脚链接标签 Introduction"
+    "message": "介绍",
+    "description": "Footer link label"
   },
-  "link.item.label.Compiler (wlc)": {
-    "message": "编译器 (wlc)",
-    "description": "链接到源码仓库的页脚链接标签 Compiler (wlc)"
+  "link.item.label.Download": {
+    "message": "下载",
+    "description": "Footer link label"
   },
-  "link.item.label.LSP & Langium": {
-    "message": "LSP 与 Langium",
-    "description": "链接到 VS Code 扩展仓库的页脚链接标签 LSP & Langium"
+  "link.item.label.Compiler and standard library": {
+    "message": "编译器与标准库",
+    "description": "Footer link label"
   },
-  "copyright": {
-    "message": "Copyright © 2026 White Language 团队。基于 Apache-2.0 协议授权。使用 Docusaurus 构建。",
-    "description": "页脚版权信息"
+  "link.item.label.Language server": {
+    "message": "语言服务器",
+    "description": "Footer link label"
+  },
+  "link.item.label.VS Code extension": {
+    "message": "VS Code 扩展",
+    "description": "Footer link label"
+  },
+  "link.item.label.GitHub organization": {
+    "message": "GitHub 组织",
+    "description": "Footer link label"
   }
 }

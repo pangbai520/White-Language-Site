@@ -1,0 +1,95 @@
+export type ReleaseTarget = {
+  id: string;
+  os: 'Windows' | 'macOS' | 'Linux';
+  architecture: string;
+  triple: string;
+  package: string;
+};
+
+export type MirrorAsset = {
+  os: ReleaseTarget['os'];
+  architecture: string;
+  file: string;
+};
+
+export type MirrorRelease = {
+  version: string;
+  folder: string;
+  assets: MirrorAsset[];
+};
+
+type GitHubAsset = {
+  name: string;
+};
+
+type GitHubRelease = {
+  tag_name: string;
+  draft: boolean;
+  prerelease: boolean;
+  assets: GitHubAsset[];
+};
+
+export const releaseVersion = '0.3.2';
+export const mirrorBaseUrl = 'https://static.white-lang.org';
+
+export const releaseTargets: ReleaseTarget[] = [
+  {id: 'windows-x64', os: 'Windows', architecture: 'x86-64', triple: 'x86_64-pc-windows-gnu', package: 'Installer / ZIP'},
+  {id: 'windows-x86', os: 'Windows', architecture: 'x86', triple: 'i686-pc-windows-gnu', package: 'Installer / ZIP'},
+  {id: 'macos-arm64', os: 'macOS', architecture: 'Apple silicon', triple: 'aarch64-apple-darwin', package: 'tar.gz'},
+  {id: 'macos-x64', os: 'macOS', architecture: 'Intel', triple: 'x86_64-apple-darwin', package: 'tar.gz'},
+  {id: 'linux-x64', os: 'Linux', architecture: 'x86-64', triple: 'x86_64-unknown-linux-gnu', package: 'tar.gz'},
+  {id: 'linux-x86', os: 'Linux', architecture: 'x86', triple: 'i686-unknown-linux-gnu', package: 'tar.gz'},
+  {id: 'linux-arm64', os: 'Linux', architecture: 'AArch64', triple: 'aarch64-unknown-linux-gnu', package: 'tar.gz'},
+  {id: 'linux-armv7', os: 'Linux', architecture: 'ARMv7', triple: 'armv7-unknown-linux-gnueabihf', package: 'tar.gz'},
+];
+
+function architectureName(name: string): string {
+  const architectures: Record<string, string> = {
+    amd64: 'x86-64',
+    x64: 'x86-64',
+    x32: 'x86',
+    i386: 'x86',
+    i686: 'x86',
+    x86: 'x86',
+    aarch64: 'AArch64',
+    arm64: 'AArch64',
+    armv7: 'ARMv7',
+  };
+  return architectures[name.toLowerCase()] ?? name;
+}
+
+function parseAsset(file: string, version: string): MirrorAsset | null {
+  const escapedVersion = version.replace(/\./g, '\\.');
+  const windows = file.match(new RegExp(`^WhiteLanguage-Windows-(.+)-Setup-${escapedVersion}\\.exe$`, 'i'));
+  if (windows) { return {os: 'Windows', architecture: architectureName(windows[1]), file}; }
+
+  const archive = file.match(new RegExp(`^whitelang-(linux|macos)-(.+)-${escapedVersion}\\.tar\\.gz$`, 'i'));
+  if (!archive) { return null; }
+  return {os: archive[1].toLowerCase() === 'linux' ? 'Linux' : 'macOS', architecture: architectureName(archive[2]), file};
+}
+
+function compareVersions(left: string, right: string): number {
+  const [leftMajor, leftMinor] = left.split('.').map(Number);
+  const [rightMajor, rightMinor] = right.split('.').map(Number);
+  return rightMajor - leftMajor || rightMinor - leftMinor;
+}
+
+export async function loadMirrorReleases(): Promise<MirrorRelease[]> {
+  const response = await fetch('https://api.github.com/repos/pangbai520/White-Language-Release/releases?per_page=100');
+  if (!response.ok) { throw new Error(`GitHub returned ${response.status}`); }
+
+  const releases = await response.json() as GitHubRelease[];
+  const mirrored = releases.flatMap(release => {
+    const version = release.tag_name.replace(/^v/, '');
+    if (release.draft || release.prerelease || !/^\d+\.\d+$/.test(version)) { return []; }
+    const assets = release.assets.map(asset => parseAsset(asset.name, version)).filter((asset): asset is MirrorAsset => asset !== null);
+    return assets.length === 0 ? [] : [{version, folder: '', assets}];
+  });
+
+  mirrored.sort((left, right) => compareVersions(left.version, right.version));
+  return mirrored.map((release, index) => ({...release, folder: index === 0 ? 'latest' : `v${release.version}`}));
+}
+
+export function mirrorAssetUrl(release: MirrorRelease, asset: MirrorAsset): string {
+  return `${mirrorBaseUrl}/${release.folder}/${asset.file}`;
+}
