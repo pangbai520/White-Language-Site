@@ -42,7 +42,7 @@ function HomepageHeader() {
   const [latestVersion, setLatestVersion] = useState('');
 
   useEffect(() => {
-    fetch('https://api.github.com/repos/pangbai520/White-Language/tags')
+    fetch('https://api.github.com/repos/whitelanguage/white/tags')
       .then(res => res.json())
       .then(data => {
         if (Array.isArray(data) && data.length > 0) {
@@ -83,7 +83,7 @@ function HomepageHeader() {
           <Link className="button button--primary button--lg" to="/docs/intro" style={{ backgroundColor: '#60c4d6', color: '#ffffff' }}>
             <Translate id="homepage.readDocsButton">Read the Docs</Translate>
           </Link>
-          <Link className="button button--secondary button--lg" to="https://github.com/pangbai520/White-Language">
+          <Link className="button button--secondary button--lg" to="https://github.com/whitelanguage/white">
             <Translate id="homepage.viewSourceButton">View Source</Translate>
           </Link>
         </div>

@@ -79,12 +79,12 @@ const config: Config = {
           label: 'Docs',
         },
         {
-          href: 'https://github.com/pangbai520/White-Language-Extension',
+          href: 'https://github.com/whitelanguage/vscode-white',
           label: 'VS Code Extension',
           position: 'left',
         },
         {
-          href: 'https://github.com/pangbai520/White-Language',
+          href: 'https://github.com/whitelanguage/white',
           label: 'GitHub',
           position: 'right',
         },
@@ -110,12 +110,12 @@ const config: Config = {
           title: 'Ecosystem',
           items: [
             {
-              label: 'Compiler (wlc)',
-              href: 'https://github.com/pangbai520/White-Language',
+              label: 'White Language Server',
+              href: 'https://github.com/whitelanguage/wlls',
             },
             {
-              label: 'LSP & Langium',
-              href: 'https://github.com/pangbai520/White-Language-Extension',
+              label: 'Vscode Extension',
+              href: 'https://github.com/whitelanguage/vscode-white',
             },
           ],
         },

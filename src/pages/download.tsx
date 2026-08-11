@@ -15,7 +15,7 @@ export default function Download() {
     else if (userAgent.indexOf('mac') !== -1) setOs('mac');
     else if (userAgent.indexOf('linux') !== -1) setOs('linux');
 
-    fetch('https://api.github.com/repos/pangbai520/White-Language/tags')
+    fetch('https://api.github.com/repos/whitelanguage/white/tags')
       .then(res => res.json())
       .then(data => {
         if (Array.isArray(data)) {
@@ -172,7 +172,7 @@ export default function Download() {
             {'Licensed under {license}.'}
           </Translate>
           <br/>
-          <Translate id="download.footer.source" values={{ githubLink: <Link to="https://github.com/pangbai520/White-Language">Source Code</Link> }}>
+          <Translate id="download.footer.source" values={{ githubLink: <Link to="https://github.com/whitelanguage/white">Source Code</Link> }}>
             {'Check {githubLink} for build instructions.'}
           </Translate>
         </p>

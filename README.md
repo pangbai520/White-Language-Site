@@ -5,8 +5,8 @@
 
 > [!NOTE]
 > This repository is specifically for the **website code and documentation**.
-> * The core **White Language compiler** source code is located at [pangbai520/White-Language](https://github.com/pangbai520/White-Language).
-> * The **VS Code Extension** source code is located at [pangbai520/White-Language-Extension](https://github.com/pangbai520/White-Language-Extension).
+> * The core **White Language compiler** source code is located at [whitelanguage/white](https://github.com/whitelanguage/white).
+> * The **VS Code Extension** source code is located at [whitelanguage/vscode-white](https://github.com/whitelanguage/vscode-white).
 > 
 > 
 
