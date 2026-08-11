@@ -96,6 +96,12 @@ body {
   margin-right: 2.25rem;
 }
 
+.navbar-sidebar__global-links {
+  margin-bottom: 0.75rem;
+  padding-bottom: 0.75rem;
+  border-bottom: 1px solid var(--ifm-toc-border-color);
+}
+
 .navbar__logo {
   height: 2rem;
   margin-right: 0.7rem;
@@ -182,6 +188,10 @@ html[lang='zh-Hans'] .footer__title {
 }
 
 @media (max-width: 996px) {
+  .navbar {
+    backdrop-filter: none;
+  }
+
   .navbar__brand {
     margin-right: 1rem;
   }
