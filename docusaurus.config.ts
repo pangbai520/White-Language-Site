@@ -83,13 +83,13 @@ const config: Config = {
           position: 'left',
         },
         {
-          href: 'https://github.com/whitelanguage/vscode-white',
-          label: 'VS Code',
+          href: 'https://github.com/whitelanguage/white',
+          label: 'GitHub',
           position: 'right',
         },
         {
-          href: 'https://github.com/whitelanguage/white',
-          label: 'GitHub',
+          href: 'https://github.com/whitelanguage/vscode-white',
+          label: 'VS Code',
           position: 'right',
         },
         {
