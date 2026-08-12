@@ -1,0 +1,9 @@
+{
+  "label": "Getting Started",
+  "position": 2,
+  "collapsed": false,
+  "link": {
+    "type": "generated-index",
+    "description": "Install White, build a first program, and learn the parts of the toolchain used in a normal project."
+  }
+}

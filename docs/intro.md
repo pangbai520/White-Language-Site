@@ -1,212 +1,82 @@
 ---
 sidebar_position: 1
-description: What White is, how to build a small program, and where the project stands.
+description: An overview of White, its compiler, and the current state of the project.
 ---
 
 # Introduction
 
-White is a statically typed language which compiles `.wl` source files to
-native programs. Its compiler, `wlc`, is written in White. The frontend checks
-the program and writes LLVM IR; Clang handles machine-code generation and
-linking.
+White is a statically typed language which builds native executables and shared
+libraries. Source files use the `.wl` extension. There is no virtual machine or
+interpreter between a compiled White program and the operating system.
 
-The project is trying to keep three things in the same language: predictable
-native code, syntax which does not require much ceremony, and safety checks
-which report mistakes before they become memory corruption. These are design
-constraints, not a claim that White already covers everything provided by an
-established systems language.
+The compiler, `wlc`, is written in White. It parses and checks the program,
+lowers it to LLVM IR, and invokes Clang for optimization, machine-code
+generation, and linking. Release compilers are built by the preceding release;
+the result then compiles the same source again as part of the bootstrap check.
 
-## A first program
+White began as a compiler project rather than as a new syntax placed over an
+existing language. Its implementation and standard library are therefore part
+of the language design, not a separate reference implementation maintained
+elsewhere.
 
-Save this as `hello.wl`:
+## Design
 
-```white
-func main() -> Int {
-    print("hello, White");
-    return 0;
-}
-```
+White is intended to produce predictable native code without making ordinary
+programs difficult to read. The compiler tries to reject unsafe states early:
+values must be initialized, conditions must be `Bool`, fallible calls remain
+visible at the call site, and incompatible numeric types are not silently
+mixed.
 
-Build it with `wlc`:
+That does not mean hiding every low-level detail. String indexing is
+byte-oriented, native pointers and FFI remain unsafe boundaries, and ARC cannot
+collect a cycle of strong references. Costs and limitations which matter to a
+systems program should remain visible in the source or in the type system.
 
-```bash
-wlc hello.wl
-```
+`Auto` is compile-time type inference rather than dynamic typing. Classes and
+other managed values use atomic reference counting, while structs retain a
+fixed value layout. These rules are covered in the Language Guide; the exact
+cases accepted by the compiler belong in the Language Reference.
 
-On Linux and macOS:
+## From source to a program
 
-```bash
-./hello
-```
-
-On Windows:
-
-```powershell
-.\hello.exe
-```
-
-`main` is the program entry point. Its `Int` return value becomes the process
-exit status. `print` belongs to the prelude, so an ordinary source file does
-not need to import it.
-
-The compiler needs `WL_PATH` to point at the root of a White installation. A
-complete installation has this basic layout:
+A normal build has five stages:
 
 ```text
-WhiteLanguage/
-├── bin/
-├── std/
-└── tools/
+.wl source
+    -> lexer and parser
+    -> name and type checking
+    -> LLVM IR
+    -> Clang and the platform linker
+    -> executable or shared library
 ```
 
-The release packages arrange this for you. When working from a copied or
-locally built toolchain, set `WL_PATH` to that `WhiteLanguage` directory rather
-than to its `bin` or `std` subdirectory.
+The White frontend owns the language rules and the shape of the emitted IR.
+LLVM and the platform toolchain handle optimization, instruction selection,
+object files, and final linking. This split keeps the compiler small enough to
+remain self-hosted without replacing a mature native backend.
 
-## Types are settled before the program runs
+## Project status
 
-Types may be written explicitly:
+White can compile its own compiler and standard library. Current releases are
+available for Windows, Linux, and macOS on the architectures listed on the
+[download page](/download).
 
-```white
-let count -> Int = 3;
-let name -> String = "White";
-```
+The project is still young. The generic type system is limited, ARC has no weak
+references or cycle collector, the standard library is smaller than those of
+established languages, and the internal White ABI may change between releases.
+White is useful today for compiler work, language experiments, and small native
+tools. Code which requires a stable ABI or a mature production ecosystem should
+wait for a later release.
 
-`Auto` asks the compiler to infer the concrete type:
+## Reading the documentation
 
-```white
-let count -> Auto = 3;
-let name -> Auto = "White";
-```
+Start with **Getting Started** to install the toolchain and build a first
+program. **Language Guide** explains the features used in ordinary White code.
+**Language Reference** records the precise grammar and semantic rules.
+**Standard Library** documents the packages shipped with the toolchain, while
+**Compiler and Tools** covers `wlc`, bootstrapping, cross-compilation, `wlls`,
+and editor support.
 
-This is compile-time inference. It does not create a dynamically typed value or
-attach a runtime type tag to the variable.
-
-White does not treat integers as booleans. Conditions must have type `Bool`:
-
-```white
-let count -> Int = 3;
-
-if (count != 0) {
-    print("not empty");
-}
-```
-
-The language has signed and unsigned integers from 8 through 128 bits, along
-with pointer-sized `IntSize` and `UIntSize`. Mixing signed and unsigned values
-of the same width requires an explicit conversion; the compiler does not apply
-C's implicit unsigned conversion rules.
-
-## Errors are part of the return type
-
-A function which may fail returns `T?` or `Void?`. The caller uses `?` at the
-call and handles the result with the following `catch` block:
-
-```white
-func main() -> Int {
-    let name -> String = input("name: ")?;
-    catch(err) {
-        print("could not read a name: ", err);
-        return 1;
-    }
-
-    print("hello, ", name);
-    return 0;
-}
-```
-
-If the containing function is also fallible, the error may be propagated
-instead. Libraries can declare their own error domains, so an I/O error and a
-JSON error do not have to share one global enumeration.
-
-Variables still follow definite-initialization rules on the error path. A
-failed assignment cannot leave a value uninitialized and then allow later code
-to read it.
-
-## Managed values use ARC
-
-Strings, class instances, interfaces, closures, and shared slice storage are
-managed with atomic reference counting. A class may define `deinit`; it runs
-when the final owning reference is released.
-
-```white
-class LogFile {
-    let path -> String;
-
-    init(path -> String) {
-        self.path = path;
-    }
-
-    deinit() {
-        print("closing ", self.path);
-    }
-}
-```
-
-Class fields may omit a default value when every initializer assigns them. The
-compiler rejects an initializer which reads a field too early, leaves it unset,
-or lets `self` escape before initialization is complete.
-
-ARC gives deterministic destruction, but it is not a tracing garbage
-collector. A cycle made entirely from strong references will leak. White does
-not have weak references yet, so programs which construct cyclic object graphs
-must break those cycles themselves.
-
-## Strings are UTF-8 byte strings
-
-A `String` stores its byte length and capacity. `length()` is O(1), and direct
-indexing returns a `Byte`:
-
-```white
-let text -> String = "香蕉Banana🍌";
-print(text.length()); // 8
-
-let first -> Byte = text[0];
-let chinese -> Char = text.char_at(1)?;
-catch(err) { return 1; }
-```
-
-Looking up the nth Unicode scalar in UTF-8 requires a scan, so White does not
-hide that cost behind `text[index]`. Code which needs scalar operations can use
-`char_at`, `char_count`, `is_char_boundary`, and `is_valid_utf8` explicitly.
-
-Array, vector, and string ranges are left-closed and right-open. A normal slice
-copies its element storage; `ref` creates a shared view and keeps the backing
-storage alive.
-
-## Native boundaries stay explicit
-
-White can declare functions using the C or system ABI and can build shared
-libraries. Raw pointers, `AnyPtr`, and `extern` declarations remain unsafe
-boundaries. The compiler cannot verify that a native signature matches the
-library behind it.
-
-Windows programs use native system APIs for startup, allocation, files,
-processes, and console I/O rather than linking MSVCRT or UCRT. Linux and macOS
-use their platform libc and POSIX interfaces. Both choices are deliberate; the
-language does not pretend every operating system has the same native boundary.
-
-## What is available now
-
-The current compiler includes:
-
-- arrays, vectors, slices, enums, structs, classes, inheritance, and interfaces;
-- first-class functions, bound methods, and closures;
-- fallible functions and user-defined error domains;
-- modules, packages, private symbols, and controlled wildcard imports;
-- C and system ABI declarations, native library search paths, and shared-library exports;
-- standard packages for strings, files, processes, environment access, standard I/O, dictionaries, and JSON;
-- Windows, Linux, and macOS targets across the architectures listed on the [download page](/download).
-
-That list describes implemented language surface, not production maturity.
-Generics are still limited, `Dict` is not yet a general-purpose generic map,
-ARC cannot collect cycles, and networking, threads, asynchronous I/O, and a
-complete filesystem package are still missing.
-
-White is currently suited to compiler work, experiments, and small native
-programs. Code which depends on a stable ABI or a mature standard library
-should wait for later releases.
-
-The [main repository](https://github.com/whitelanguage/white) contains the
-compiler, standard library, tests, bootstrap notes, and the current list of
-known limitations.
+Platform coverage, known limitations, and compatibility rules are kept under
+**Project Status**. The [source repository](https://github.com/whitelanguage/white)
+contains the compiler, standard library, tests, and bootstrap infrastructure.

@@ -1,0 +1,9 @@
+{
+  "label": "快速开始",
+  "position": 2,
+  "collapsed": false,
+  "link": {
+    "type": "generated-index",
+    "description": "安装 White、编译第一个程序，并了解日常项目会用到的工具链。"
+  }
+}
