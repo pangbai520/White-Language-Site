@@ -301,7 +301,7 @@
   "home.release": { "message": "White {version}" },
   "home.title": { "message": "White" },
   "home.lead": { "message": "White 是一门编译为原生程序的静态类型语言。编译器使用 White 编写，并通过 LLVM 完成代码生成。" },
-  "home.targets.action": { "message": "支持的系统" },
+  "home.download.action": { "message": "下载" },
   "home.docs.action": { "message": "文档" },
   "home.meta.compiler": { "message": "使用 White 编写" },
   "home.meta.output": { "message": "使用 LLVM 构建" },

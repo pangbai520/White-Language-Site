@@ -1,10 +1,10 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import Link from '@docusaurus/Link';
 import Translate, {translate} from '@docusaurus/Translate';
 import CodeBlock from '@theme/CodeBlock';
 import Layout from '@theme/Layout';
 import PlatformIcon, {type PlatformName} from '../components/PlatformIcon';
-import {releaseVersion} from '../data/release';
+import {loadMirrorReleases} from '../data/release';
 import styles from './index.module.css';
 
 const helloWorld = `class Greeting {
@@ -36,6 +36,16 @@ function ArrowIcon(): React.JSX.Element {
 }
 
 function HomeHeader(): React.JSX.Element {
+  const [releaseVersion, setReleaseVersion] = useState<string | null>(null);
+
+  useEffect(() => {
+    let active = true;
+    loadMirrorReleases().then(releases => {
+      if (active && releases.length > 0) { setReleaseVersion(releases[0].version); }
+    }).catch(() => {});
+    return () => { active = false; };
+  }, []);
+
   return (
     <header className={styles.hero}>
       <div className={styles.heroBackdrop} aria-hidden="true">W</div>
@@ -43,7 +53,9 @@ function HomeHeader(): React.JSX.Element {
         <div className={styles.heroCopy}>
           <p className={styles.releaseLine}>
             <span className={styles.releaseDot} />
-            <Translate id="home.release" values={{version: releaseVersion}}>{'White {version}'}</Translate>
+            {releaseVersion
+              ? <Translate id="home.release" values={{version: releaseVersion}}>{'White {version}'}</Translate>
+              : 'White'}
           </p>
           <h1><Translate id="home.title">White</Translate></h1>
           <p className={styles.lead}>
@@ -51,7 +63,7 @@ function HomeHeader(): React.JSX.Element {
           </p>
           <div className={styles.actions}>
             <Link className={styles.primaryAction} to="/download">
-              <Translate id="home.targets.action">Supported systems</Translate>
+              <Translate id="home.download.action">Download</Translate>
               <span aria-hidden="true">→</span>
             </Link>
             <Link className={styles.secondaryAction} to="/docs/intro">

@@ -29,7 +29,6 @@ type GitHubRelease = {
   assets: GitHubAsset[];
 };
 
-export const releaseVersion = '0.3.2';
 export const mirrorBaseUrl = 'https://static.white-lang.org';
 
 export const releaseTargets: ReleaseTarget[] = [
@@ -69,9 +68,15 @@ function parseAsset(file: string, version: string): MirrorAsset | null {
 }
 
 function compareVersions(left: string, right: string): number {
-  const [leftMajor, leftMinor] = left.split('.').map(Number);
-  const [rightMajor, rightMinor] = right.split('.').map(Number);
-  return rightMajor - leftMajor || rightMinor - leftMinor;
+  const leftParts = left.split('.').map(Number);
+  const rightParts = right.split('.').map(Number);
+  const length = Math.max(leftParts.length, rightParts.length);
+
+  for (let index = 0; index < length; index += 1) {
+    const difference = (rightParts[index] ?? 0) - (leftParts[index] ?? 0);
+    if (difference !== 0) { return difference; }
+  }
+  return 0;
 }
 
 export async function loadMirrorReleases(): Promise<MirrorRelease[]> {
@@ -81,7 +86,7 @@ export async function loadMirrorReleases(): Promise<MirrorRelease[]> {
   const releases = await response.json() as GitHubRelease[];
   const mirrored = releases.flatMap(release => {
     const version = release.tag_name.replace(/^v/, '');
-    if (release.draft || release.prerelease || !/^\d+\.\d+$/.test(version)) { return []; }
+    if (release.draft || release.prerelease || !/^\d+\.\d+(?:\.\d+)?$/.test(version)) { return []; }
     const assets = release.assets.map(asset => parseAsset(asset.name, version)).filter((asset): asset is MirrorAsset => asset !== null);
     return assets.length === 0 ? [] : [{version, folder: '', assets}];
   });
