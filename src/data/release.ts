@@ -10,11 +10,11 @@ export type MirrorAsset = {
   os: ReleaseTarget['os'];
   architecture: string;
   file: string;
+  folder: string;
 };
 
 export type MirrorRelease = {
   version: string;
-  folder: string;
   assets: MirrorAsset[];
 };
 
@@ -57,7 +57,9 @@ function architectureName(name: string): string {
   return architectures[name.toLowerCase()] ?? name;
 }
 
-function parseAsset(file: string, version: string): MirrorAsset | null {
+type CandidateAsset = Omit<MirrorAsset, 'folder'>;
+
+function parseAsset(file: string, version: string): CandidateAsset | null {
   const escapedVersion = version.replace(/\./g, '\\.');
   const windows = file.match(new RegExp(`^WhiteLanguage-Windows-(.+)-Setup-${escapedVersion}\\.exe$`, 'i'));
   if (windows) { return {os: 'Windows', architecture: architectureName(windows[1]), file}; }
@@ -65,6 +67,20 @@ function parseAsset(file: string, version: string): MirrorAsset | null {
   const archive = file.match(new RegExp(`^whitelang-(linux|macos)-(.+)-${escapedVersion}\\.tar\\.gz$`, 'i'));
   if (!archive) { return null; }
   return {os: archive[1].toLowerCase() === 'linux' ? 'Linux' : 'macOS', architecture: architectureName(archive[2]), file};
+}
+
+async function findMirrorAsset(asset: CandidateAsset, version: string, latest: boolean): Promise<MirrorAsset | null> {
+  const folders = latest ? ['latest', `v${version}`] : [`v${version}`];
+
+  for (const folder of folders) {
+    try {
+      const response = await fetch(`${mirrorBaseUrl}/${folder}/${asset.file}`, {method: 'HEAD', cache: 'no-store'});
+      if (response.ok) { return {...asset, folder}; }
+    } catch {
+      // An unavailable mirror entry is the same as a missing release asset here.
+    }
+  }
+  return null;
 }
 
 function compareVersions(left: string, right: string): number {
@@ -84,17 +100,21 @@ export async function loadMirrorReleases(): Promise<MirrorRelease[]> {
   if (!response.ok) { throw new Error(`GitHub returned ${response.status}`); }
 
   const releases = await response.json() as GitHubRelease[];
-  const mirrored = releases.flatMap(release => {
+  const candidates = releases.flatMap(release => {
     const version = release.tag_name.replace(/^v/, '');
     if (release.draft || release.prerelease || !/^\d+\.\d+(?:\.\d+)?$/.test(version)) { return []; }
-    const assets = release.assets.map(asset => parseAsset(asset.name, version)).filter((asset): asset is MirrorAsset => asset !== null);
-    return assets.length === 0 ? [] : [{version, folder: '', assets}];
+    const assets = release.assets.map(asset => parseAsset(asset.name, version)).filter((asset): asset is CandidateAsset => asset !== null);
+    return assets.length === 0 ? [] : [{version, assets}];
   });
 
-  mirrored.sort((left, right) => compareVersions(left.version, right.version));
-  return mirrored.map((release, index) => ({...release, folder: index === 0 ? 'latest' : `v${release.version}`}));
+  candidates.sort((left, right) => compareVersions(left.version, right.version));
+  const checked = await Promise.all(candidates.map(async (release, index) => {
+    const assets = await Promise.all(release.assets.map(asset => findMirrorAsset(asset, release.version, index === 0)));
+    return {version: release.version, assets: assets.filter((asset): asset is MirrorAsset => asset !== null)};
+  }));
+  return checked.filter(release => release.assets.length > 0);
 }
 
 export function mirrorAssetUrl(release: MirrorRelease, asset: MirrorAsset): string {
-  return `${mirrorBaseUrl}/${release.folder}/${asset.file}`;
+  return `${mirrorBaseUrl}/${asset.folder}/${asset.file}`;
 }
