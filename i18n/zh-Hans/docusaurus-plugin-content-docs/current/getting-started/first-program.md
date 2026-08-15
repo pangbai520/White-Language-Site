@@ -61,19 +61,20 @@ print("hello, White");
 下面把消息交给单独的函数生成，让 `main` 只保留程序入口的工作：
 
 ```white title="hello.wl"
-func greeting(name -> String) -> String {
+func greeting(name: String) -> String {
     return "hello, " + name;
 }
 
 func main() -> Int {
-    let message -> String = greeting("White");
+    let message = greeting("White");
     print(message);
     return 0;
 }
 ```
 
-参数名称写在 `->` 前，类型写在后。参数列表后面的箭头给出返回类型。`let` 声明
-变量时同样先写名称，再写类型。
+参数名称与类型之间使用 `:`，参数列表后面的 `->` 只表示返回类型。声明带有初始化
+式，并且编译器能够确定其类型时，可以像这里的 `message` 一样省略类型。需要明确
+写出推导类型时，`let message: Auto = ...` 也仍然有效。
 
 再次执行相同的编译命令即可。构建成功后，`wlc` 会替换上一次生成的文件。
 

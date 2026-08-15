@@ -1,0 +1,9 @@
+{
+  "label": "Project Status",
+  "position": 7,
+  "collapsed": false,
+  "link": {
+    "type": "generated-index",
+    "description": "Release notes, compatibility rules, supported platforms, and known limitations."
+  }
+}

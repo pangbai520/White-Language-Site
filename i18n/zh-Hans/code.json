@@ -309,7 +309,7 @@
   "home.language.title": { "message": "一些基本功能" },
   "home.language.lead": { "message": "White 具有静态类型、class、interface、ARC、可失败返回值，以及调用原生库的 FFI。语法目前保持得比较小。" },
   "home.language.static.title": { "message": "静态类型" },
-  "home.language.static.body": { "message": "类型可以显式写出，也可以使用 Auto 推导。Auto 会在编译期确定，不会在运行时增加动态类型。" },
+  "home.language.static.body": { "message": "类型可以显式写出，也可以从初始化式推导。推导在编译期完成，不会在运行时增加类型信息。" },
   "home.language.errors.title": { "message": "错误处理" },
   "home.language.errors.body": { "message": "可能失败的函数返回 T?。调用时使用 ?，再在合适的位置用 catch 处理错误。" },
   "home.language.memory.title": { "message": "内存管理" },
@@ -348,5 +348,8 @@
   "download.source.kicker": { "message": "源码" },
   "download.source.title": { "message": "从仓库构建编译器" },
   "download.source.body": { "message": "编译器、标准库、测试与自举说明都在 White 主仓库中。从源码构建需要一套已有的 wlc 工具链。" },
-  "download.source.action": { "message": "打开构建说明" }
+  "download.source.action": { "message": "打开构建说明" },
+  "download.transition.name": { "message": "语法过渡版本" },
+  "download.transition.note": { "message": "这个版本同时接受新旧语法。升级旧项目时请保留它；旧写法将在 0.3.5 中移除。" },
+  "download.transition.guide": { "message": "迁移说明" }
 }

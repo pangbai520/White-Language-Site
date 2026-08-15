@@ -32,10 +32,13 @@ byte-oriented, native pointers and FFI remain unsafe boundaries, and ARC cannot
 collect a cycle of strong references. Costs and limitations which matter to a
 systems program should remain visible in the source or in the type system.
 
-`Auto` is compile-time type inference rather than dynamic typing. Classes and
-other managed values use atomic reference counting, while structs retain a
-fixed value layout. These rules are covered in the Language Guide; the exact
-cases accepted by the compiler belong in the Language Reference.
+`Auto` is available for an explicitly inferred type, as in
+`let value: Auto = 5;`. A declaration with an initializer may also omit its type
+entirely. Both forms are resolved at compile time rather than treated as dynamic
+typing. Classes and other managed values use atomic reference counting, while
+structs retain a fixed value layout. These rules are covered in the Language
+Guide; the exact cases accepted by the compiler belong in the Language
+Reference.
 
 ## From source to a program
 

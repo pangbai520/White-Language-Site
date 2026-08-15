@@ -8,19 +8,19 @@ import {loadMirrorReleases} from '../data/release';
 import styles from './index.module.css';
 
 const helloWorld = `class Greeting {
-    let name -> String;
+    let name: String;
 
-    init(name -> String) {
+    init(name: String) {
         self.name = name;
     }
 
-    method write() -> Void {
+    func write() -> Void {
         print("hello, ", self.name);
     }
 }
 
 func main() -> Int {
-    let greeting -> Greeting = Greeting("White");
+    let greeting = Greeting("White");
     greeting.write();
     return 0;
 }`;
@@ -108,9 +108,9 @@ function LanguageSection(): React.JSX.Element {
           <div>
             <span className={styles.rowNumber}>01</span>
             <h3><Translate id="home.language.static.title">Static types</Translate></h3>
-            <p><Translate id="home.language.static.body">Types may be written explicitly or inferred with Auto. Auto is resolved by the compiler and does not add a dynamic type at runtime.</Translate></p>
+            <p><Translate id="home.language.static.body">Types may be written explicitly or inferred from an initializer. Inference is resolved by the compiler and adds no runtime type information.</Translate></p>
           </div>
-          <pre><code>{`let count -> Auto = 10;\nconst limit -> Int = 64;`}</code></pre>
+          <pre><code>{`let count = 10;\nconst limit: Int = 64;`}</code></pre>
         </article>
         <article className={styles.languageRow}>
           <div>
@@ -118,7 +118,7 @@ function LanguageSection(): React.JSX.Element {
             <h3><Translate id="home.language.errors.title">Errors</Translate></h3>
             <p><Translate id="home.language.errors.body">A function that can fail returns T?. Use ? at the call site and catch the error where it can be handled.</Translate></p>
           </div>
-          <pre><code>{`let text -> String = input("name: ")?;\ncatch(err) { print(err); }`}</code></pre>
+          <pre><code>{`let text: String = input("name: ")?;\ncatch(err) { print(err); }`}</code></pre>
         </article>
         <article className={styles.languageRow}>
           <div>

@@ -63,20 +63,22 @@ The next version keeps `main` small and constructs the message in a separate
 function:
 
 ```white title="hello.wl"
-func greeting(name -> String) -> String {
+func greeting(name: String) -> String {
     return "hello, " + name;
 }
 
 func main() -> Int {
-    let message -> String = greeting("White");
+    let message = greeting("White");
     print(message);
     return 0;
 }
 ```
 
-Parameters put the name before `->` and the type after it. The arrow following
-the parameter list gives the return type. `let` introduces a variable with the
-same name-then-type order.
+Parameters use `:` between the name and type. The arrow following the parameter
+list is reserved for the return type. A declaration with an initializer may
+omit its type when the compiler can infer it, as `message` does here. Writing
+`let message: Auto = ...` is also valid when an explicit inferred type is
+useful.
 
 Compile the file again with the same command. `wlc` replaces the previous
 output after the build succeeds.

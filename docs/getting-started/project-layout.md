@@ -40,7 +40,7 @@ hello/
 ```
 
 ```white title="greeting.wl"
-func message(name -> String) -> String {
+func message(name: String) -> String {
     return "hello, " + name;
 }
 ```
@@ -77,9 +77,9 @@ hello/
 
 ```white title="model/user.wl"
 class User {
-    let name -> String;
+    let name: String;
 
-    init(name -> String) {
+    init(name: String) {
         self.name = name;
     }
 }
@@ -93,7 +93,7 @@ import User from "user.wl"
 import "model"
 
 func main() -> Int {
-    let user -> model.User = model.User("White");
+    let user: model.User = model.User("White");
     print(user.name);
     return 0;
 }

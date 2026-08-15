@@ -1,0 +1,9 @@
+{
+  "label": "项目状态",
+  "position": 7,
+  "collapsed": false,
+  "link": {
+    "type": "generated-index",
+    "description": "发布说明、兼容规则、支持的平台与已知限制。"
+  }
+}

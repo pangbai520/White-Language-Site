@@ -23,10 +23,17 @@ function TargetCard({target}: {target: ReleaseTarget}): React.JSX.Element {
 }
 
 function MirrorReleaseGroup({release, latest = false}: {release: MirrorRelease; latest?: boolean}): React.JSX.Element {
+  const syntaxTransition = release.version === '0.3.4';
   return (
     <section className={styles.releaseGroup} aria-labelledby={`release-${release.version}`}>
       <div className={styles.releaseHeading}>
-        <h3 id={`release-${release.version}`}>White {release.version}</h3>
+        <div>
+          <h3 id={`release-${release.version}`}>White {release.version}{syntaxTransition && <> — <Translate id="download.transition.name">Syntax Transition Release</Translate></>}</h3>
+          {syntaxTransition && <p className={styles.releaseNote}>
+            <Translate id="download.transition.note">This release accepts both the old and new syntax. Keep it when upgrading an older project; the old forms are removed in 0.3.5.</Translate>{' '}
+            <Link to="/docs/project-status/syntax-transition"><Translate id="download.transition.guide">Migration notes</Translate></Link>
+          </p>}
+        </div>
         {latest && <span><Translate id="download.mirror.latest">Latest available release</Translate></span>}
       </div>
       <div className={styles.releaseAssets}>

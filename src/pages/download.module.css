@@ -81,6 +81,14 @@
   margin: 0;
 }
 
+.releaseNote {
+  color: var(--wl-muted-color);
+  font-size: 0.84rem;
+  line-height: 1.55;
+  margin: 0.55rem 0 0;
+  max-width: 48rem;
+}
+
 .releaseHeading > span {
   color: var(--ifm-color-primary);
   font-family: var(--ifm-font-family-monospace);
